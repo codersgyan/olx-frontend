@@ -78,6 +78,42 @@ export function Pattern({
     return null
   }
 
+  const simulateUpload = (imageFile: ImageFile) => {
+    let progress = 0
+    const interval = setInterval(() => {
+      progress += Math.random() * 20
+      if (progress >= 100) {
+        progress = 100
+        clearInterval(interval)
+
+        setImages((prev) =>
+          prev.map((img) =>
+            img.id === imageFile.id
+              ? { ...img, progress: 100, status: "completed" as const }
+              : img
+          )
+        )
+
+        // Check if all uploads are complete
+        const updatedImages = images.map((img) =>
+          img.id === imageFile.id
+            ? { ...img, progress: 100, status: "completed" as const }
+            : img
+        )
+
+        if (updatedImages.every((img) => img.status === "completed")) {
+          onUploadComplete?.(updatedImages)
+        }
+      } else {
+        setImages((prev) =>
+          prev.map((img) =>
+            img.id === imageFile.id ? { ...img, progress } : img
+          )
+        )
+      }
+    }, 100)
+  }
+
   const addImages = useCallback(
     (files: FileList | File[]) => {
       const newImages: ImageFile[] = []
@@ -118,42 +154,6 @@ export function Pattern({
     },
     [images, maxSize, maxFiles, onImagesChange]
   )
-
-  const simulateUpload = (imageFile: ImageFile) => {
-    let progress = 0
-    const interval = setInterval(() => {
-      progress += Math.random() * 20
-      if (progress >= 100) {
-        progress = 100
-        clearInterval(interval)
-
-        setImages((prev) =>
-          prev.map((img) =>
-            img.id === imageFile.id
-              ? { ...img, progress: 100, status: "completed" as const }
-              : img
-          )
-        )
-
-        // Check if all uploads are complete
-        const updatedImages = images.map((img) =>
-          img.id === imageFile.id
-            ? { ...img, progress: 100, status: "completed" as const }
-            : img
-        )
-
-        if (updatedImages.every((img) => img.status === "completed")) {
-          onUploadComplete?.(updatedImages)
-        }
-      } else {
-        setImages((prev) =>
-          prev.map((img) =>
-            img.id === imageFile.id ? { ...img, progress } : img
-          )
-        )
-      }
-    }, 100)
-  }
 
   const removeImage = useCallback((id: string) => {
     // If it's a default image, remove it from visible defaults

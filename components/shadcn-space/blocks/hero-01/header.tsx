@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetClose } from "@/components/ui/sheet";
@@ -117,11 +117,42 @@ const AuthButton = ({ className }: { className?: string }) => {
   );
 };
 
+// Next.js <Link> navigation doesn't fire "hashchange", so nav clicks set the
+// hash manually; browser hash/history events reset it to the real location.
+let manualHash: string | null = null;
+const hashListeners = new Set<() => void>();
+
+const setHash = (hash: string) => {
+  manualHash = hash;
+  hashListeners.forEach((listener) => listener());
+};
+
+const getHash = () => manualHash ?? window.location.hash;
+
+const subscribeToHash = (onChange: () => void) => {
+  const onLocationChange = () => {
+    manualHash = null;
+    onChange();
+  };
+  hashListeners.add(onChange);
+  window.addEventListener("hashchange", onLocationChange);
+  window.addEventListener("popstate", onLocationChange);
+  return () => {
+    hashListeners.delete(onChange);
+    window.removeEventListener("hashchange", onLocationChange);
+    window.removeEventListener("popstate", onLocationChange);
+  };
+};
+
 const Header = ({ navigationData, className }: HeaderProps) => {
   const pathname = usePathname();
   const [sticky, setSticky] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [hash, setHash] = useState("");
+  const hash = useSyncExternalStore(
+    subscribeToHash,
+    getHash,
+    () => "",
+  );
 
   const handleScroll = useCallback(() => {
     setSticky(window.scrollY >= 50);
@@ -129,10 +160,6 @@ const Header = ({ navigationData, className }: HeaderProps) => {
 
   const handleResize = useCallback(() => {
     if (window.innerWidth >= 768) setIsOpen(false);
-  }, []);
-
-  const updateHash = useCallback(() => {
-    setHash(window.location.hash);
   }, []);
 
   const getIsActive = useCallback((href: string) => {
@@ -146,19 +173,14 @@ const Header = ({ navigationData, className }: HeaderProps) => {
   }, [pathname, hash]);
 
   useEffect(() => {
-    updateHash();
     window.addEventListener("scroll", handleScroll);
     window.addEventListener("resize", handleResize);
-    window.addEventListener("hashchange", updateHash);
-    window.addEventListener("popstate", updateHash);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleResize);
-      window.removeEventListener("hashchange", updateHash);
-      window.removeEventListener("popstate", updateHash);
     };
-  }, [handleScroll, handleResize, updateHash]);
+  }, [handleScroll, handleResize]);
 
   return (
     <motion.header
