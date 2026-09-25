@@ -34,38 +34,45 @@ function HeroSection({ avatarList }: HeroSectionProps) {
                 <motion.h1
                   initial={{ opacity: 0, y: 32 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1, ease: "easeInOut" }}
-                  className="lg:text-8xl md:text-7xl text-5xl font-medium leading-14 md:leading-20 lg:leading-24"
-                >
-                  Buy & Sell with{" "}
+                  transition={{
+                    duration: 1,
+                    ease: "easeInOut",
+                  }}
+                  className="lg:text-8xl md:text-7xl text-5xl font-medium leading-14 md:leading-20 lg:leading-24">
+                  Buy and Sell with{" "}
                   <span
-                    className={`${instrumentSerif.className} tracking-tight`}
-                  >
+                    className={`${instrumentSerif.className} tracking-tight`}>
                     confidence
                   </span>
                 </motion.h1>
                 <motion.p
                   initial={{ opacity: 0, y: 32 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1, delay: 0.1, ease: "easeInOut" }}
-                  className="text-base font-normal max-w-2xl text-muted-foreground"
-                >
-                  Discover great deals on digital gadgets, phones, laptops, and
-                  more. Resell items you no longer need or find pre-loved
+                  transition={{
+                    duration: 1,
+                    delay: 0.1,
+                    ease: "easeInOut",
+                  }}
+                  className="text-base font-normal max-w-2xl text-muted-foreground">
+                  Discover great deals on digital gadgets,
+                  phones, laptops, and more. Resell items
+                  you no longer need or find pre-loved
                   treasures from local sellers.
                 </motion.p>
               </div>
               <motion.div
                 initial={{ opacity: 0, y: 32 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.2, ease: "easeInOut" }}
-                className="flex items-center flex-col md:flex-row justify-center gap-8"
-              >
+                transition={{
+                  duration: 1,
+                  delay: 0.2,
+                  ease: "easeInOut",
+                }}
+                className="flex items-center flex-col md:flex-row justify-center gap-8">
                 <Button
                   className="relative text-sm font-medium rounded-full h-12 p-1 ps-6 pe-14 group transition-all duration-500 hover:ps-14 hover:pe-6 w-fit overflow-hidden cursor-pointer"
                   render={<Link href="/listing" />}
-                  nativeButton={false}
-                >
+                  nativeButton={false}>
                   <span className="relative z-10 transition-all duration-500">
                     View all listings
                   </span>
@@ -76,7 +83,9 @@ function HeroSection({ avatarList }: HeroSectionProps) {
                 <div className="flex items-center sm:gap-7 gap-3">
                   <ul className="avatar flex flex-row items-center">
                     {avatarList.map((avatar, index) => (
-                      <li key={index} className="-mr-2 z-1 avatar-hover:ml-2">
+                      <li
+                        key={index}
+                        className="-mr-2 z-1 avatar-hover:ml-2">
                         <img
                           src={avatar.image}
                           alt="Avatar"
@@ -89,12 +98,14 @@ function HeroSection({ avatarList }: HeroSectionProps) {
                   </ul>
                   <div className="gap-1 flex flex-col items-start">
                     <div className="flex gap-1">
-                    {Array.from({ length: 5 }).map((_, index) => (
-                      <Star
-                        key={index}
-                        className="h-4 w-4 fill-amber-400 text-amber-400"
-                      />
-                    ))}
+                      {Array.from({ length: 5 }).map(
+                        (_, index) => (
+                          <Star
+                            key={index}
+                            className="h-4 w-4 fill-amber-400 text-amber-400"
+                          />
+                        ),
+                      )}
                     </div>
                     <p className="sm:text-sm text-xs font-normal text-muted-foreground">
                       Trusted by 1000+ buyers and sellers
@@ -105,11 +116,14 @@ function HeroSection({ avatarList }: HeroSectionProps) {
             </div>
           </div>
 
-
           <MotionImage
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.3, ease: "easeInOut" }}
+            transition={{
+              duration: 1,
+              delay: 0.3,
+              ease: "easeInOut",
+            }}
             src="/panda__left.png"
             alt="Panda mascot shopping on phone"
             width={660}
@@ -119,14 +133,17 @@ function HeroSection({ avatarList }: HeroSectionProps) {
           <MotionImage
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.4, ease: "easeInOut" }}
+            transition={{
+              duration: 1,
+              delay: 0.4,
+              ease: "easeInOut",
+            }}
             src="/panda__right.png"
             alt="Panda mascot browsing on laptop"
             width={743}
             height={715}
             className="absolute bottom-0 right-30 2xl:right-16 w-60 xl:w-74 2xl:w-94 hidden xl:block pointer-events-none z-0"
           />
-          
         </div>
       </div>
     </section>

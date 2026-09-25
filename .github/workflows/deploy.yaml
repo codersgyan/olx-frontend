@@ -23,8 +23,8 @@ jobs:
       - run: pnpm lint
       - run: pnpm build
         env:
-          NEXT_PUBLIC_API_URL: https://api.example.com
-          NEXT_PUBLIC_R2_PUBLIC_URL: https://cdn.example.com
+          NEXT_PUBLIC_API_URL: https://api.coders-shop.xyz
+          NEXT_PUBLIC_R2_PUBLIC_URL: https://cdn.coders-shop.xyz
 
   deploy:
     needs: test
