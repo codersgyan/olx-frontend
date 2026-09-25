@@ -39,7 +39,7 @@ function HeroSection({ avatarList }: HeroSectionProps) {
                     ease: "easeInOut",
                   }}
                   className="lg:text-8xl md:text-7xl text-5xl font-medium leading-14 md:leading-20 lg:leading-24">
-                  Buy and Sell with{" "}
+                  Buy & Sell with{" "}
                   <span
                     className={`${instrumentSerif.className} tracking-tight`}>
                     confidence
